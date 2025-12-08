@@ -1,5 +1,7 @@
 # $\tau^2$-Bench: Evaluating Conversational Agents in a Dual-Control Environment
 
+Forked from the original https://github.com/sierra-research/tau2-bench repo.
+
 [![python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
