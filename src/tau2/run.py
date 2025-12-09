@@ -1,4 +1,6 @@
 import json
+import os
+import csv
 import multiprocessing
 import random
 from concurrent.futures import ThreadPoolExecutor
@@ -35,6 +37,14 @@ def get_options() -> RegistryInfo:
     Returns options for the simulator.
     """
     return registry.get_info()
+
+
+def save_metrics(metrics: dict, save_path: str):
+    with open(save_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Metric", "Value"])
+        for k, v in metrics.items():
+            writer.writerow([k, v])
 
 
 def get_environment_info(
@@ -145,11 +155,15 @@ def run_domain(config: RunConfig) -> Results:
         ConsoleDisplay.console.print(console_text)
 
     num_trials = config.num_trials
+    scores_dir = config.scores_dir
     save_to = config.save_to
     save_dir = config.save_dir
     if save_to is None:
         save_to = make_run_name(config)
+    scores_to = f"{scores_dir}/{save_to}.csv"
     save_to = f"{save_dir}/{save_to}.json"
+    os.makedirs(save_dir, exist_ok=True)
+    os.makedirs(scores_dir, exist_ok=True)
     simulation_results = run_tasks(
         domain=config.domain,
         tasks=tasks,
@@ -172,6 +186,20 @@ def run_domain(config: RunConfig) -> Results:
     )
     metrics = compute_metrics(simulation_results)
     ConsoleDisplay.display_agent_metrics(metrics)
+
+    metrics_dict = {
+        'avg_reward': f"{metrics.avg_reward:.4f}"
+    }
+    for k, pass_hat_k in metrics.pass_hat_ks.items():
+        metrics_dict[f"pass_{k}"] = f"{pass_hat_k:.3f}"
+
+    save_metrics(metrics_dict, scores_to)
+
+    console_text = Text(
+            text=f"Saved metrics to {scores_to}",
+            style="bold green",
+        )
+    ConsoleDisplay.console.print(console_text)
 
     return simulation_results
 

@@ -124,6 +124,12 @@ def add_run_args(parser):
         help="The directory to save the simulation results. If not provided, will save to data/simulations/.",
     )
     parser.add_argument(
+        "--scores-dir",
+        type=str,
+        required=False,
+        help="The directory to save the scores. If not provided, will save to data/scores/.",
+    )
+    parser.add_argument(
         "--max-concurrency",
         type=int,
         default=DEFAULT_MAX_CONCURRENCY,
@@ -175,6 +181,7 @@ def main():
                 max_errors=args.max_errors,
                 save_to=args.save_to,
                 save_dir=args.save_dir,
+                scores_dir=args.scores_dir,
                 max_concurrency=args.max_concurrency,
                 seed=args.seed,
                 log_level=args.log_level,
