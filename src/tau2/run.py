@@ -14,6 +14,7 @@ from tau2.data_model.simulation import (
     Results,
     RunConfig,
     SimulationRun,
+    TerminationReason,
     UserInfo,
 )
 from tau2.data_model.tasks import Task
@@ -353,6 +354,7 @@ def run_tasks(
             style="bold green",
         )
         ConsoleDisplay.console.print(console_text)
+        start_time = get_now()
         try:
             simulation = run_task(
                 domain=domain,
@@ -375,7 +377,20 @@ def run_tasks(
             _save(simulation)
         except Exception as e:
             logger.error(f"Error running task {task.id}, trial {trial}: {e}")
-            raise e
+            simulation = SimulationRun(
+                id=f"{task.id}_{trial}_{seed}",
+                task_id=task.id,
+                timestamp=get_now(),
+                start_time=start_time,
+                end_time=get_now(),
+                duration=0.0,
+                termination_reason=TerminationReason.SYSTEM_ERROR,
+                messages=[],
+                trial=trial,
+                seed=seed,
+                reward_info=None,
+            )
+            _save(simulation)
         return simulation
 
     args = []
