@@ -118,6 +118,12 @@ def add_run_args(parser):
         help="The path to save the simulation results. Will be saved to data/simulations/<save_to>.json. If not provided, will save to <domain>_<agent>_<user>_<llm_agent>_<llm_user>_<timestamp>.json. If the file already exists, it will try to resume the run.",
     )
     parser.add_argument(
+        "--save-dir",
+        type=str,
+        required=False,
+        help="The directory to save the simulation results. If not provided, will save to data/simulations/.",
+    )
+    parser.add_argument(
         "--max-concurrency",
         type=int,
         default=DEFAULT_MAX_CONCURRENCY,
@@ -168,6 +174,7 @@ def main():
                 max_steps=args.max_steps,
                 max_errors=args.max_errors,
                 save_to=args.save_to,
+                save_dir=args.save_dir,
                 max_concurrency=args.max_concurrency,
                 seed=args.seed,
                 log_level=args.log_level,
