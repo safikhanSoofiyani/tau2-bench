@@ -15,6 +15,8 @@ data/models/
 data/analyses/
 src/experiments/model_serving/vllm_serving/.*
 .ruff_cache
+results/
+scores/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
