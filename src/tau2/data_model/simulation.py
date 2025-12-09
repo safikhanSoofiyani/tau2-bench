@@ -19,7 +19,8 @@ from tau2.config import (
     DEFAULT_NUM_TRIALS,
     DEFAULT_SAVE_TO,
     DEFAULT_SEED,
-    DEFAULT_SAVE_DIR
+    DEFAULT_SAVE_DIR,
+    DEFAULT_SCORES_DIR
 )
 from tau2.data_model.message import Message
 from tau2.data_model.tasks import Action, EnvAssertion, RewardType, Task
@@ -145,6 +146,13 @@ class RunConfig(BaseModel):
         Field(
             description="The directory to save the simulation results",
             default=DEFAULT_SAVE_DIR,
+        ),
+    ]
+    scores_dir: Annotated[
+        Optional[str],
+        Field(
+            description="The directory to save the simulation results",
+            default=DEFAULT_SCORES_DIR,
         ),
     ]
     max_concurrency: Annotated[
