@@ -321,6 +321,7 @@ class TerminationReason(str, Enum):
     TOO_MANY_ERRORS = "too_many_errors"
     AGENT_ERROR = "agent_error"
     USER_ERROR = "user_error"
+    SYSTEM_ERROR = "system_error"
 
 
 class SimulationRun(BaseModel):
@@ -424,6 +425,8 @@ class Results(BaseModel):
 
         rows = []
         for sim in self.simulations:
+            if sim.reward_info is None or sim.termination_reason == TerminationReason.SYSTEM_ERROR:
+                continue
             row = {
                 "simulation_id": sim.id,
                 "task_id": sim.task_id,

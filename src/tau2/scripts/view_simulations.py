@@ -34,7 +34,7 @@ def display_simulation_list(
     # calculate number of successful and total trials for each task
     num_success = defaultdict(int)
     for sim in results.simulations:
-        if is_successful(sim.reward_info.reward):
+        if sim.reward_info and is_successful(sim.reward_info.reward):
             num_success[sim.task_id] += 1
 
     for i, sim in enumerate(results.simulations, 1):
